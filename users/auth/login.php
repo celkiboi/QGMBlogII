@@ -1,8 +1,8 @@
 <?php
 $title = 'Login';
-require '../db/db.php';
+require '../../db/db.php';
 require 'auth.php';
-include '../layouts/nav.php';
+include '../../layouts/nav.php';
 
 $error = null;
 
@@ -12,12 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $stmt->fetch();
 
     if ($user && password_verify($_POST['password'], $user['password_hash'])) {
-        $_SESSION['user'] = [
-            'id' => $user['id'],
-            'username' => $user['username'],
-            'role' => $user['role']
-        ];
-        header('Location: ../pages/dashboard.php');
+        login($user);
+        header('Location: ../dashboard.php');
         exit;
     }
 
@@ -34,3 +30,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <input name="password" type="password" placeholder="Password" required>
     <button type="submit">Login</button>
 </form>
+
+<p>Not a user? Register <a href="register.php">here</a></p>

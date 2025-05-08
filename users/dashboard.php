@@ -1,6 +1,6 @@
 <?php
     $title = 'Dashboard';
-    require '../auth/auth.php';
+    require 'auth/auth.php';
     require_login();
     include '../layouts/nav.php';
 ?>
