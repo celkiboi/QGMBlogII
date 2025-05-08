@@ -1,5 +1,5 @@
 <?php
-    $title = null;
+    $title = 'About';
     include '../layouts/nav.php';
 ?>
 

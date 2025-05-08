@@ -1,8 +1,8 @@
 <?php
+$title = 'Login';
 require '../db/db.php';
 require 'auth.php';
 include '../layouts/nav.php';
-$title = 'Login';
 
 $error = null;
 
