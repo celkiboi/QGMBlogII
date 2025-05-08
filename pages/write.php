@@ -14,6 +14,7 @@ include '../layouts/nav.php';
 <h1>Write a New Article</h1>
 
 <form id="article-form" enctype="multipart/form-data" method="post">
+    <input type="hidden" name="api-endpoint" value="../api/create_article.php">
     <label>Title: <input type="text" name="title" required></label><br>
     <label>Short description: <input type="text" name="short-description" required></label><br>
     <label>Cover Photo: <input type="file" name="cover_photo" accept="image/*"></label>

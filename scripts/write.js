@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.getElementById('article-body');
     const submitPublishedBtn = document.getElementById('submit-article-published-btn');
     const submitUnpublishedBtn = document.getElementById('submit-article-unpublished-btn');
+    const apiEndPoint = document.querySelector('input[name="api-endpoint"]').value;
 
     let blockCounter = 0;
 
@@ -92,8 +93,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const title = form.querySelector('input[name="title"]').value.trim();
         const shortDesc = form.querySelector('input[name="short-description"]').value.trim();
         const coverFile = form.querySelector('input[name="cover_photo"]').files[0];
+        const uuid = document.querySelector('input[name="uuid"]')?.value;
 
-        if (!title || !shortDesc || !coverFile) {
+        if (!title || !shortDesc) {
+            alert("Please fill out title, short description, and upload a cover image.");
+            return;
+        }
+
+        if (!uuid && !coverFile) {
             alert("Please fill out title, short description, and upload a cover image.");
             return;
         }
@@ -107,8 +114,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const formData = new FormData();
 
-        const coverWebP = await convertToWebP(coverFile);
-        formData.append('cover_photo', coverWebP, 'cover.webp');
+        var coverWebP;
+        if (coverFile !== undefined) {
+            coverWebP = await convertToWebP(coverFile);
+            formData.append('cover_photo', coverWebP, 'cover.webp');
+        }
+
+        if (uuid) {
+            formData.append('uuid', uuid);
+        }
 
         const blocks = body.querySelectorAll('.article-item');
         let imageIndex = 0;
@@ -144,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         formData.append('metadata', JSON.stringify(article));
 
-        const response = await fetch('../api/create_article.php', {
+        const response = await fetch(apiEndPoint, {
             method: 'POST',
             body: formData
         });
@@ -153,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Article submitted successfully!");
             window.location.href = '../users/dashboard.php';
         } else {
-            alert("Error submitting article.");
+            alert(`Error submitting article.`);
         }
     }
 
