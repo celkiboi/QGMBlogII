@@ -16,4 +16,8 @@
     <p>You are a regular user.</p>
 <?php endif; ?>
 
+<?php if (has_role('admin') || has_role('staff')): ?>
+    <?php include 'written_articles.php'; ?>
+<?php endif; ?>
+
 <a href="../auth/logout.php">Logout</a>
