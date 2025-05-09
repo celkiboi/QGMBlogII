@@ -75,11 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 if (data.success && data.new_status) {
-                    // Update status cell
                     const statusCell = row.querySelector('td:nth-child(2)');
                     statusCell.textContent = data.new_status.charAt(0).toUpperCase() + data.new_status.slice(1);
 
-                    // Update button text
                     const button = form.querySelector('button[type="submit"]');
                     button.textContent = data.new_status === 'published' ? 'Unpublish' : 'Publish';
                 } else {
