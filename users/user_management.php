@@ -5,7 +5,7 @@ $stmt = $pdo->prepare("SELECT * FROM users ORDER BY created_at DESC LIMIT 10");
 $stmt->execute();
 $users = $stmt->fetchAll();
 
-if (empty($articles)): ?>
+if (empty($users)): ?>
     <p>No users detected</p>
 <?php else: ?>
     <h2>Users:</h2>
