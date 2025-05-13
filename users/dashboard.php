@@ -20,4 +20,8 @@
     <?php include 'written_articles.php'; ?>
 <?php endif; ?>
 
+<?php if (has_role('admin')): ?>
+    <?php include 'users.php'; ?>
+<?php endif; ?>
+
 <a href="../auth/logout.php">Logout</a>
