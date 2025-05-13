@@ -19,12 +19,23 @@ if (empty($articles)): ?>
         </thead>
         <tbody>
             <?php foreach ($users as $user): ?>
-                <tr>
+                <tr class="user-row" id="user-<?= htmlspecialchars($user['id']) ?>">
                     <td><?= htmlspecialchars($user['username']) ?></td>
-                    <td><?= htmlspecialchars($user['role']) ?></td>
+                    <?php if ($user['role'] === 'admin'): ?>
+                        <td>Admin</td>
+                    <?php else: ?>
+                        <td>
+                            <select name="role">
+                                <option value="regular" <?= $user['role'] === 'regular' ? 'selected' : '' ?>>Regular</option>
+                                <option value="staff" <?= $user['role'] === 'staff' ? 'selected' : '' ?>>Staff</option>
+                            </select>
+                        </td>
+                    <?php endif; ?>
                     <td><?= htmlspecialchars($user['created_at']) ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 <?php endif; ?>
+
+<script src="../scripts/user_management.js"></script>
