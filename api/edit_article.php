@@ -69,8 +69,6 @@ $date = date('Y-m-d_H-i-s');
 $backupFile = "$basePath/$date.json";
 rename($metaFile, $backupFile);
 
-file_put_contents($metaFile, json_encode($metadata, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
 $stmt = $pdo->prepare("UPDATE articles SET title = ?, summary = ?, status = ?, updated_at = NOW() WHERE uuid = ? AND writer_id = ?");
 $stmt->execute([
     $metadata['title'],
@@ -79,5 +77,8 @@ $stmt->execute([
     $uuid,
     current_user()['id']
 ]);
+
+unset($metadata['is_published']);
+file_put_contents($metaFile, json_encode($metadata, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
 echo json_encode(['success' => true, 'uuid' => $uuid]);

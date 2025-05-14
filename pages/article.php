@@ -10,6 +10,16 @@ if (!$uuid || !preg_match('/^[a-f0-9\-]{36}$/', $uuid)) {
     exit;
 }
 
+$stmt = $pdo->prepare("SELECT * FROM articles WHERE uuid = ?");
+$stmt->execute([$uuid]);
+$article = $stmt->fetch();
+
+if ($article['status'] === "unpublished") {
+    http_response_code(401);
+    echo "<h1>404</h1><p>Article cannot be viewed.</p>";
+    exit;
+}
+
 $articleDir = __DIR__ . "/../articles/$uuid";
 $metaFile = "$articleDir/article.json";
 $coverImage = "$articleDir/cover.webp";
@@ -21,25 +31,19 @@ if (!file_exists($metaFile) || !file_exists($coverImage)) {
     exit;
 }
 
-$article = json_decode(file_get_contents($metaFile), true);
+$articleContent = json_decode(file_get_contents($metaFile), true);
 
-if ($article['is_published'] === false) {
-    http_response_code(401);
-    echo "<h1>404</h1><p>Article cannot be viewed.</p>";
-    exit;
-}
-
-$title = htmlspecialchars($article['title'] ?? 'Untitled');
+$title = htmlspecialchars($articleContent['title'] ?? 'Untitled');
 include '../layouts/nav.php';
 ?>
 
 <main class="article">
     <h1><?= $title ?></h1>
-    <p><em><?= htmlspecialchars($article['short_description'] ?? '') ?></em></p>
+    <p><em><?= htmlspecialchars($articleContent['short_description'] ?? '') ?></em></p>
 
     <img src="../articles/<?= htmlspecialchars($uuid) ?>/cover.webp" alt="Cover Image" style="max-width: 100%; height: auto;">
 
-    <?php foreach ($article['article_elements'] as $block): ?>
+    <?php foreach ($articleContent['article_elements'] as $block): ?>
         <?php if ($block['type'] === 'paragraph'): ?>
             <p><?= nl2br(htmlspecialchars($block['value'])) ?></p>
 

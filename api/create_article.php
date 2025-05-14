@@ -49,8 +49,6 @@ if (!empty($_FILES['images']['tmp_name'])) {
     }
 }
 
-file_put_contents("$basePath/article.json", json_encode($metadata, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
 $stmt = $pdo->prepare("INSERT INTO articles (uuid, writer_id, title, summary, status) VALUES (?, ?, ?, ?, ?)");
 $stmt->execute([
     $uuid,
@@ -59,5 +57,9 @@ $stmt->execute([
     $metadata['short_description'],
     $metadata['is_published'] ? 'published' : 'draft'
 ]);
+
+unset($metadata['is_published']);
+
+file_put_contents("$basePath/article.json", json_encode($metadata, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
 echo json_encode(['success' => true, 'uuid' => $uuid]);
