@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = 'X';
+        deleteBtn.style.display = 'none';
         wrapper.appendChild(deleteBtn);
         
         deleteBtn.addEventListener('click', () => {

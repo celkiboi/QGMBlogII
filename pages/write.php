@@ -19,20 +19,20 @@ include '../layouts/nav.php';
     <label>Short description: <input type="text" name="short-description" required></label><br>
     <label>Cover Photo: <input type="file" name="cover_photo" accept="image/*"></label>
 
-    <div id="article-body">
+    <div id="article-body"></div>
 
+    <div id="element-controls">
+        <button type="button" id="add-element-btn">+</button><br><br>
+        <div id="element-chooser" style="display:none;">
+            <button type="button" data-type="paragraph">Paragraph</button>
+            <button type="button" data-type="quote">Quote</button>
+            <button type="button" data-type="subtitle">Subtitle</button>
+            <button type="button" data-type="image">Image</button>
+        </div>
     </div>
 
-    <button type="button" id="add-element-btn">+</button> <br><br>
     <button type="button" id="submit-article-unpublished-btn">Submit Article Unpublished</button>
     <button type="button" id="submit-article-published-btn">Submit Article Published</button>
 </form>
-
-<div id="element-chooser" style="display:none;">
-    <button data-type="paragraph">Paragraph</button>
-    <button data-type="quote">Quote</button>
-    <button data-type="subtitle">Subtitle</button>
-    <button data-type="image">Image</button>
-</div>
 
 <script src="../scripts/write.js"></script>

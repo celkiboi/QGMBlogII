@@ -39,8 +39,6 @@ include '../layouts/nav.php';
     <label>Title: <input type="text" name="title" required value="<?= htmlspecialchars($article['title'] ?? '') ?>"></label><br>
     <label>Short description: <input type="text" name="short-description" required value="<?= htmlspecialchars($article['short_description'] ?? '') ?>"></label><br>
     <label>Replace Cover Photo: <input type="file" name="cover_photo" accept="image/*"></label>
-    
-
 
     <div id="article-body">
         <?php
@@ -52,40 +50,59 @@ include '../layouts/nav.php';
             $blockCounter++;
         ?>
             <div class="article-item" id="article-id-<?= $blockCounter ?>" data-type="<?= $type ?>" style="position: relative;">
-                <button style="position:absolute;top:5px;right:5px;display:none;" onclick="this.parentElement.remove(); return false;">X</button>
-
                 <?php if ($type === 'paragraph'): ?>
                     <label>Paragraph:<br>
-                        <textarea name="content[]" rows="1" style="overflow:hidden;resize:none;"><?= $value ?></textarea>
-                    </label>
+                    <textarea name="content[]" rows="1" style="overflow:hidden;resize:none;"><?= $value ?></textarea>
+                </label>
                 <?php elseif ($type === 'quote'): ?>
                     <label>Quote:<br>
-                        <input type="text" name="content[]" value="<?= $value ?>">
-                    </label>
+                    <input type="text" name="content[]" value="<?= $value ?>">
+                </label>
                 <?php elseif ($type === 'subtitle'): ?>
                     <label>Subtitle:<br>
-                        <input type="text" name="content[]" value="<?= $value ?>">
-                    </label>
+                    <input type="text" name="content[]" value="<?= $value ?>">
+                </label>
                 <?php elseif ($type === 'image'): ?>
                     <label>Replace Image:<br>
-                        <input type="file" name="content[]" accept="image/*">
-                    </label>
-                    <p><small>Current image: <?= $src ?></small></p>
+                    <input type="file" name="content[]" accept="image/*">
+                </label>
+                <p><small>Current image: <?= $src ?></small></p>
                 <?php endif; ?>
+                
+                <button class="article-item-delete-btn" style="display:none;" onclick="this.parentElement.remove(); return false;">X</button>
             </div>
         <?php endforeach; ?>
     </div>
 
-    <button type="button" id="add-element-btn">+</button> <br><br>
+    <div id="element-controls">
+        <button type="button" id="add-element-btn">+</button><br><br>
+        <div id="element-chooser" style="display:none;">
+            <button type="button" data-type="paragraph">Paragraph</button>
+            <button type="button" data-type="quote">Quote</button>
+            <button type="button" data-type="subtitle">Subtitle</button>
+            <button type="button" data-type="image">Image</button>
+        </div>
+    </div>
+
     <button type="button" id="submit-article-unpublished-btn">Save Unpublished</button>
     <button type="button" id="submit-article-published-btn">Save Published</button>
 </form>
 
-<div id="element-chooser" style="display:none;">
-    <button data-type="paragraph">Paragraph</button>
-    <button data-type="quote">Quote</button>
-    <button data-type="subtitle">Subtitle</button>
-    <button data-type="image">Image</button>
-</div>
-
 <script src="../scripts/write.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.article-item-delete-btn').forEach(btn => {
+        const parent = btn.parentElement;
+
+        parent.addEventListener('mouseenter', () => {
+            btn.style.display = 'inline';
+        });
+
+        parent.addEventListener('mouseleave', () => {
+            btn.style.display = 'none';
+        });
+
+        btn.style.display = 'none';
+    });
+});
+</script>
