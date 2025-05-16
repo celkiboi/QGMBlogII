@@ -28,6 +28,7 @@ include '../layouts/nav.php';
             <button type="button" data-type="quote">Quote</button>
             <button type="button" data-type="subtitle">Subtitle</button>
             <button type="button" data-type="image">Image</button>
+            <button type="button" data-type="table">Table</button>
         </div>
     </div>
 

@@ -65,6 +65,17 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'image':
                 wrapper.innerHTML += '<label>Image:<br><input type="file" name="content[]" accept="image/*" /></label>';
                 break;
+            
+            case 'table':
+                wrapper.innerHTML += `
+                    <label>Rows:<input type="number" name="table-rows" min="1" /></label>
+                    <label>Columns:<input type="number" name="table-columns" min="1" /></label>
+                    <button type="button" id="create-table-btn" onClick="generateTableInputs(this.parentNode);">Create</button>
+                `;
+                const elementAddBtn = document.getElementById('add-element-btn');
+                elementAddBtn.style.display = 'none';
+                break;
+            
         }
 
         const deleteBtn = document.createElement('button');
@@ -155,6 +166,39 @@ document.addEventListener('DOMContentLoaded', () => {
                     imageIndex++;
                 }
             }
+
+            if (type === 'table') {
+                const tableWrapper = block.querySelector('.generated-table');
+                if (!tableWrapper) return;
+
+                const titleInput = tableWrapper.querySelector('input[name="title"]');
+                const tableTitle = titleInput?.value?.trim() ?? '';
+
+                const cellInputs = tableWrapper.querySelectorAll('input[id^="table-"][id*="-cell-"]');
+
+                const tableData = {};
+
+                cellInputs.forEach(input => {
+                    const match = input.id.match(/table-\d+-cell-(\d+)-(\d+)/);
+                    if (!match) return;
+
+                    const row = parseInt(match[1]);
+                    const col = parseInt(match[2]);
+
+                    if (!tableData[row]) tableData[row] = [];
+                    tableData[row][col] = input.value;
+                });
+
+                const rowsArray = Object.keys(tableData)
+                    .sort((a, b) => a - b)
+                    .map(row => tableData[row]);
+
+                article.article_elements.push({
+                    type: 'table',
+                    title: tableTitle,
+                    data: rowsArray
+                });
+            }
         }
 
         formData.append('metadata', JSON.stringify(article));
@@ -194,3 +238,155 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+function generateTableInputs(wrapper) {
+    if (!wrapper || !wrapper.classList.contains('article-item')) {
+        console.error('generateTableInputs: Invalid wrapper element.');
+        return;
+    }
+
+    const articleId = wrapper.id.replace('article-id-', '');
+
+    const rows = parseInt(wrapper.querySelector('input[name="table-rows"]').value, 10);
+    const cols = parseInt(wrapper.querySelector('input[name="table-columns"]').value, 10);
+
+    if (isNaN(rows) || isNaN(cols) || rows < 1 || cols < 1) {
+        alert('Please enter valid numbers for rows and columns.');
+        return;
+    }
+
+    const labels = wrapper.querySelectorAll('label');
+    labels.forEach(element => {
+        element.remove();
+    });
+    const fields = wrapper.querySelectorAll('input');
+    fields.forEach(element => {
+        element.remove();
+    });
+    const button = document.getElementById('create-table-btn');
+    button.remove();
+
+    const table = document.createElement('div');
+    table.className = 'generated-table';
+
+    table.innerHTML = `
+        <label>Table title: <input type="text" name="title" required></label>
+    `;
+
+    for (let row = 0; row < rows; row++) {
+        const rowDiv = document.createElement('div');
+        rowDiv.style.display = 'flex';
+        rowDiv.className = "table-row";
+        for (let col = 0; col < cols; col++) {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = `table-${articleId}-cell-${row}-${col}`;
+            input.id = `table-${articleId}-cell-${row}-${col}`;
+            input.placeholder = `${row + 1},${col + 1}`;
+            input.style.margin = '2px';
+            rowDiv.appendChild(input);
+        }
+        table.appendChild(rowDiv);
+    }
+
+    const addRowBtn = document.createElement('button');
+    addRowBtn.id = `table-${articleId}-add-row`;
+    addRowBtn.textContent = "Add Row";
+    addRowBtn.type = "button";
+    addRowBtn.onclick = function() { addRow(table, articleId); };
+
+    const addColBtn = document.createElement('button');
+    addColBtn.id = `table-${articleId}-add-col`;
+    addColBtn.textContent = "Add Column";
+    addColBtn.type = "button";
+    addColBtn.onclick = function() { addCol(table, articleId); };
+
+    const removeRowBtn = document.createElement('button');
+    removeRowBtn.id = `table-${articleId}-remove-row`;
+    removeRowBtn.textContent = "Remove Row";
+    removeRowBtn.type = "button";
+    removeRowBtn.onclick = function() { removeRow(table); };
+
+    const removeColBtn = document.createElement('button');
+    removeColBtn.id = `table-${articleId}-remove-col`;
+    removeColBtn.textContent = "Remove Column";
+    removeColBtn.type = "button";
+    removeColBtn.onclick = function() { removeCol(table); };
+
+    table.appendChild(addRowBtn);
+    table.appendChild(addColBtn);
+    table.appendChild(removeRowBtn);
+    table.appendChild(removeColBtn);
+
+    wrapper.prepend(table);
+
+    const elementAddBtn = document.getElementById('add-element-btn');
+    elementAddBtn.style.display = 'inline';
+}
+
+function addRow(generatedTable, articleId) {
+    const rows = generatedTable.querySelectorAll(':scope > .table-row');
+    const firstRow = rows[0];
+    const numberOfColumns = firstRow.children.length;
+    const row = rows.length;
+
+    const rowDiv = document.createElement('div');
+    rowDiv.style.display = 'flex';
+    rowDiv.className = "table-row";
+    for (let col = 0; col < numberOfColumns; col++) {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = `table-${articleId}-cell-${row}-${col}`;
+        input.id = `table-${articleId}-cell-${row}-${col}`;
+        input.placeholder = `${row + 1},${col + 1}`;
+        input.style.margin = '2px';
+        rowDiv.appendChild(input);
+    }
+
+    const lastRow = rows[rows.length - 1];
+    generatedTable.insertBefore(rowDiv, lastRow.nextSibling);
+}
+
+function removeRow(generatedTable) {
+    const rows = generatedTable.querySelectorAll(':scope > .table-row');
+
+    if (rows.length === 1) {
+        generatedTable.parentNode.remove();
+    }
+
+    const lastRow = rows[rows.length - 1];
+    lastRow.remove();
+}
+
+function addCol(generatedTable, articleId) {
+    const rows = generatedTable.querySelectorAll(':scope > .table-row');
+    const firstRow = rows[0];
+    const numberOfColumns = firstRow.children.length;
+
+    rowIndex = 0;
+    rows.forEach(row => {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = `table-${articleId}-cell-${rowIndex}-${numberOfColumns}`;
+        input.id = `table-${articleId}-cell-${rowIndex}-${numberOfColumns}`;
+        input.placeholder = `${rowIndex + 1},${numberOfColumns + 1}`;
+        input.style.margin = '2px';
+        row.appendChild(input);
+        rowIndex++;
+    });
+}
+
+function removeCol(generatedTable) {
+    const rows = generatedTable.querySelectorAll(':scope > .table-row');
+    const firstRow = rows[0];
+    const numberOfColumns = firstRow.children.length;
+
+    if (numberOfColumns === 1) {
+        generatedTable.parentNode.remove();
+    }
+
+    rows.forEach((row) => {
+        const lastColElement = row.children[row.children.length - 1];
+        lastColElement.remove();
+    });
+}

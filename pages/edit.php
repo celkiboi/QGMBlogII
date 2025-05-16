@@ -52,21 +52,51 @@ include '../layouts/nav.php';
             <div class="article-item" id="article-id-<?= $blockCounter ?>" data-type="<?= $type ?>" style="position: relative;">
                 <?php if ($type === 'paragraph'): ?>
                     <label>Paragraph:<br>
-                    <textarea name="content[]" rows="1" style="overflow:hidden;resize:none;"><?= $value ?></textarea>
-                </label>
+                        <textarea name="content[]" rows="1" style="overflow:hidden;resize:none;"><?= $value ?></textarea>
+                    </label>
+
                 <?php elseif ($type === 'quote'): ?>
                     <label>Quote:<br>
-                    <input type="text" name="content[]" value="<?= $value ?>">
-                </label>
+                        <input type="text" name="content[]" value="<?= $value ?>">
+                    </label>
+
                 <?php elseif ($type === 'subtitle'): ?>
                     <label>Subtitle:<br>
-                    <input type="text" name="content[]" value="<?= $value ?>">
-                </label>
+                        <input type="text" name="content[]" value="<?= $value ?>">
+                    </label>
+
                 <?php elseif ($type === 'image'): ?>
                     <label>Replace Image:<br>
-                    <input type="file" name="content[]" accept="image/*">
-                </label>
-                <p><small>Current image: <?= $src ?></small></p>
+                        <input type="file" name="content[]" accept="image/*">
+                    </label>
+                    <p><small>Current image: <?= $src ?></small></p>
+
+                <?php elseif ($block['type'] === 'table'): 
+                    $rows = $block['data'];
+                    $title = $block['title'];
+                    $title = !isset($title) ? "" : $title;
+                    $rowCounter = 0;
+                    $colCounter = 0;
+                ?>
+                    <div class="generated-table">
+                        <label>Table title: 
+                            <input type="text" name="title" value="<?= $title ?>">
+                        </label>
+                        <?php foreach($rows as $row): ?>
+                            <div class="table-row" style="display: flex;">
+                                <?php $colCounter = 0;
+                                    foreach($row as $item): ?>
+                                        <input type="text" name="table-<?= htmlspecialchars($blockCounter) ?>-cell-<?= htmlspecialchars($rowCounter) ?>-<?= htmlspecialchars($colCounter) ?>" id = "table-<?= htmlspecialchars($blockCounter) ?>-cell-<?= htmlspecialchars($rowCounter) ?>-<?= htmlspecialchars($colCounter) ?>" placeholder="<?= htmlspecialchars($rowCounter + 1) ?>,<?= htmlspecialchars($colCounter + 1) ?>" style="margin: 2px;" value=<?= htmlspecialchars($item) ?>>
+                                    <?php $colCounter++; ?>
+                                <?php endforeach; ?>
+                            </div>
+                            <?php $rowCounter++; ?>
+                        <?php endforeach; ?>
+                        <button type="button" id="table-<?= htmlspecialchars($blockCounter) ?>-add-row" onClick="addRow(this.parentNode, <?= htmlspecialchars($blockCounter) ?>)">Add Row</button>
+                        <button type="button" id="table-<?= htmlspecialchars($blockCounter) ?>-add-col" onClick="addCol(this.parentNode, <?= htmlspecialchars($blockCounter) ?>)">Add Column</button>
+                        <button type="button" id="table-<?= htmlspecialchars($blockCounter) ?>-remove-row" onClick="removeRow(this.parentNode)">Remove Row</button>
+                        <button type="button" id="table-<?= htmlspecialchars($blockCounter) ?>-remove-row" onClick="removeCol(this.parentNode)">Remove Column</button>
+                    </div>
                 <?php endif; ?>
                 
                 <button class="article-item-delete-btn" style="display:none;" onclick="this.parentElement.remove(); return false;">X</button>
@@ -81,6 +111,7 @@ include '../layouts/nav.php';
             <button type="button" data-type="quote">Quote</button>
             <button type="button" data-type="subtitle">Subtitle</button>
             <button type="button" data-type="image">Image</button>
+            <button type="button" data-type="table">Table</button>
         </div>
     </div>
 

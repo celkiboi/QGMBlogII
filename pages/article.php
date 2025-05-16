@@ -55,6 +55,23 @@ include '../layouts/nav.php';
 
         <?php elseif ($block['type'] === 'image'): ?>
             <img src="../articles/<?= htmlspecialchars($uuid) ?>/images/<?= htmlspecialchars($block['src']) ?>" alt="Article Image" style="max-width: 100%; height: auto;">
+        
+        <?php elseif ($block['type'] === 'table'): 
+            $rows = $block['data'];
+            $title = $block['title'];
+        ?>
+            <?php if (isset($title)): ?>
+                <h3><?= htmlspecialchars($title) ?></h3>
+            <?php endif; ?>
+            <table>
+                <?php foreach ($rows as $row): ?>
+                    <tr>
+                        <?php foreach ($row as $item): ?>
+                            <td><?= htmlspecialchars($item) ?></td>
+                        <?php endforeach; ?>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
 
         <?php endif; ?>
     <?php endforeach; ?>
