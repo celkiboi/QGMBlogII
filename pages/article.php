@@ -72,6 +72,9 @@ include '../layouts/nav.php';
                     </tr>
                 <?php endforeach; ?>
             </table>
+        
+        <?php elseif ($block['type'] === 'youtube_video'): ?>
+            <iframe src="https://www.youtube.com/embed/<?= htmlspecialchars($block['video_id']) ?>" frameborder="0" allowfullscreen></iframe>
 
         <?php endif; ?>
     <?php endforeach; ?>

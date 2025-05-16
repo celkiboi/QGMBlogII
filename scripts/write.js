@@ -76,6 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 elementAddBtn.style.display = 'none';
                 break;
             
+            case 'youtube_video':
+                wrapper.innerHTML += `<label>Youtube link:<input type="text" name="youtube-link"/></label>`;
+                break;
         }
 
         const deleteBtn = document.createElement('button');
@@ -197,6 +200,53 @@ document.addEventListener('DOMContentLoaded', () => {
                     type: 'table',
                     title: tableTitle,
                     data: rowsArray
+                });
+            }
+
+            if (type === 'youtube_video') {
+                const input = block.querySelector('textarea, input[type="text"]');
+                const urlInputValue = input.value;
+                if (!urlInputValue) 
+                    continue;
+
+                let url;
+                try {
+                    url = new URL(urlInputValue);
+                }
+                catch (e) {
+                    alert('Please insert a valid youtube url');
+                    return;
+                }
+
+                const validHostnames = [
+                    'www.youtube.com',
+                    'm.youtube.com',
+                    'youtu.be'
+                ]
+                if (!validHostnames.includes(url.hostname)) {
+                    alert('Please insert a valid youtube url');
+                    return;
+                }
+
+                let videoId;
+                if (url.hostname === 'youtu.be') {
+                    videoId = url.pathname.slice(1);
+                    if (!videoId) {
+                        alert('Please insert a valid youtube url');
+                        return;
+                    }
+                }
+                else {
+                    videoId = url.searchParams.get('v');
+                    if (!videoId) {
+                        alert('Please insert a valid youtube url');
+                        return;
+                    }
+                }
+
+                article.article_elements.push({
+                    type: 'youtube_video',
+                    video_id: videoId
                 });
             }
         }

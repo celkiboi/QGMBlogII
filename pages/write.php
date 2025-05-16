@@ -29,6 +29,7 @@ include '../layouts/nav.php';
             <button type="button" data-type="subtitle">Subtitle</button>
             <button type="button" data-type="image">Image</button>
             <button type="button" data-type="table">Table</button>
+            <button type="button" data-type="youtube_video">Youtube Video</button>
         </div>
     </div>
 

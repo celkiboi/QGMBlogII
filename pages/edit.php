@@ -97,6 +97,10 @@ include '../layouts/nav.php';
                         <button type="button" id="table-<?= htmlspecialchars($blockCounter) ?>-remove-row" onClick="removeRow(this.parentNode)">Remove Row</button>
                         <button type="button" id="table-<?= htmlspecialchars($blockCounter) ?>-remove-row" onClick="removeCol(this.parentNode)">Remove Column</button>
                     </div>
+                
+                <?php elseif ($block['type'] === 'youtube_video'): ?>
+                    <label>Youtube link:<input type="text" name="youtube-link" value="https://www.youtube.com/watch?v=<?= htmlspecialchars($block['video_id']) ?>"/></label>
+
                 <?php endif; ?>
                 
                 <button class="article-item-delete-btn" style="display:none;" onclick="this.parentElement.remove(); return false;">X</button>
@@ -112,6 +116,7 @@ include '../layouts/nav.php';
             <button type="button" data-type="subtitle">Subtitle</button>
             <button type="button" data-type="image">Image</button>
             <button type="button" data-type="table">Table</button>
+            <button type="button" data-type="youtube_video">Youtube Video</button>
         </div>
     </div>
 
