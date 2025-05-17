@@ -15,7 +15,17 @@ if (empty($articles)): ?>
     <p>You haven't written any articles yet. <a href="../pages/write.php">Write your first one</a>!</p>
 <?php else: ?>
     <div class="your-articles-wrapper">
-        <h2>Your Articles</h2>
+        <h2>Your Articles:</h2>
+        <span>Sort by:</span>
+        <input type="radio" name="post-sorting" id="post-sort-date-edited" value="date-edited" checked>
+        <label for="user-sort-date-edited">Date edited</label>
+        <input type="radio" name="post-sorting" id="post-sort-title" value="title">
+        <label for="user-sort-username">Title</label>
+        <select name="post-sorting-order">
+            <option value="descending">Descending</option>
+            <option value="ascending">Ascending</option>
+        </select>
+        <button id="sort-posts" onClick="sortPosts()">Sort</button>
         <table>
             <thead>
                 <tr>
@@ -28,7 +38,7 @@ if (empty($articles)): ?>
             </thead>
             <tbody>
                 <?php foreach ($articles as $article): ?>
-                    <tr>
+                    <tr class="post-row">
                         <td><?= htmlspecialchars($article['title']) ?></td>
                         <td><?= htmlspecialchars(ucfirst($article['status'])) ?></td>
                         <td><a href="../pages/edit.php?uuid=<?= htmlspecialchars($article['uuid']) ?>">Edit</a></td>
@@ -53,7 +63,7 @@ if (empty($articles)): ?>
     </div>
 
     <?php if ($totalArticles > 10): ?>
-        <button type="submit">Load More</button>
+        <button type="submit" onClick="loadMorePosts()" id="load-more-posts">Load More</button>
     <?php endif; ?>
 <?php endif; ?>
 
