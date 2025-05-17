@@ -23,6 +23,16 @@ if (!preg_match('/^[a-f0-9\-]{36}$/', $uuid)) {
     exit;
 }
 
+$stmt = $pdo->prepare("SELECT * FROM articles WHERE uuid = '$uuid';");
+$stmt->execute();
+$articleData = $stmt->fetch();
+
+if (current_user()['id'] !== $articleData['writer_id']) {
+    http_response_code(403);
+    echo json_encode(['error' => 'You are not the writer of this article']);
+    exit;
+}
+
 $metadata = json_decode($_POST['metadata'], true);
 if (
     !$metadata ||

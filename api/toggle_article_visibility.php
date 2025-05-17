@@ -18,13 +18,19 @@ if (!$uuid || !preg_match('/^[a-f0-9\-]{36}$/', $uuid)) {
     exit;
 }
 
-$stmt = $pdo->prepare("SELECT id, status FROM articles WHERE uuid = ? AND writer_id = ?");
-$stmt->execute([$uuid, current_user()['id']]);
+$stmt = $pdo->prepare("SELECT * FROM articles WHERE uuid = '$uuid';");
+$stmt->execute();
 $article = $stmt->fetch();
+
+if (current_user()['id'] !== $article['writer_id']) {
+    http_response_code(403);
+    echo "<h1>403 Forbidden</h1><p>You do not have access to this page.</p>";
+    exit;
+}
 
 if (!$article) {
     http_response_code(404);
-    echo json_encode(['error' => 'Article not found or permission denied']);
+    echo json_encode(['error' => 'Article not found']);
     exit;
 }
 

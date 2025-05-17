@@ -1,5 +1,6 @@
 <?php
 require_once '../users/auth/auth.php';
+require_once '../db/db.php';
 
 if (!is_logged_in() || has_role('regular')) {
     http_response_code(403);
@@ -12,6 +13,16 @@ $uuid = $_GET['uuid'] ?? null;
 if (!$uuid || !preg_match('/^[a-f0-9\-]{36}$/', $uuid)) {
     http_response_code(400);
     echo "<h1>400 Bad Request</h1><p>Invalid or missing UUID.</p>";
+    exit;
+}
+
+$stmt = $pdo->prepare("SELECT * FROM articles WHERE uuid = '$uuid';");
+$stmt->execute();
+$articleData = $stmt->fetch();
+
+if (current_user()['id'] !== $articleData['writer_id']) {
+    http_response_code(403);
+    echo "<h1>403 Forbidden</h1><p>You do not have access to this page.</p>";
     exit;
 }
 
