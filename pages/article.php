@@ -80,5 +80,45 @@ include '../layouts/nav.php';
     <?php endforeach; ?>
 </main>
 
-</body>
-</html>
+<?php
+
+$stmt = $pdo->prepare("
+    SELECT comments.*, users.username 
+    FROM comments 
+    JOIN users ON comments.user_id = users.id 
+    WHERE comments.article_id = ?
+    ORDER BY comments.created_at DESC
+    LIMIT 3
+");
+$stmt->execute([$article['id']]);
+$comments = $stmt->fetchAll();
+?>
+
+<form class="post-comment">
+    <input type="hidden" name="uuid" value="<?= htmlspecialchars($uuid) ?>">
+    <label>Comment <input type="text" name="comment" required></label><br>
+    <button type="button" id="comment-post-button" onClick="postComment()">Post</button>
+</form>
+
+<form>
+    <label for="comment-sorting-order">Sort comments by: </label>
+    <select name="comment-sorting-order">
+        <option value="newest-first">Newest first</option>
+        <option value="oldest-first">Oldest first</option>
+    </select>
+</form>
+
+<div class="comments-container">
+    <?php foreach($comments as $comment): ?>
+        <div class="comment">
+            <h4><i><?= htmlspecialchars($comment['username']) ?>:</i></h4>
+            <p><?= htmlspecialchars($comment['content']) ?></p>
+            <span><i><?= htmlspecialchars($comment['created_at']) ?></i></span>
+            <button type="button" class="report-button" id="report-button-<?= htmlspecialchars($comment['id']) ?>">Report</button>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<button type="button" id="load-more-comments-button" onClick="loadMoreComments()">Load more</button>
+
+<script src="../scripts/comments.js"></script>
