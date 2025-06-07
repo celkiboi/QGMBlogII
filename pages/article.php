@@ -114,7 +114,7 @@ $comments = $stmt->fetchAll();
             <h4><i><?= htmlspecialchars($comment['username']) ?>:</i></h4>
             <p><?= htmlspecialchars($comment['content']) ?></p>
             <span><i><?= htmlspecialchars($comment['created_at']) ?></i></span>
-            <button type="button" class="report-button" id="report-button-<?= htmlspecialchars($comment['id']) ?>">Report</button>
+            <button type="button" class="report-button" id="report-button-<?= htmlspecialchars($comment['id']) ?>" onClick="reportComment(<?= htmlspecialchars($comment['id']) ?>, this)">Report</button>
         </div>
     <?php endforeach; ?>
 </div>

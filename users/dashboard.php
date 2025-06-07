@@ -22,6 +22,7 @@
 
 <?php if (has_role('admin')): ?>
     <?php include 'user_management.php'; ?>
+    <?php include 'reported_comments.php'; ?>
 <?php endif; ?>
 
 <a href="../auth/logout.php">Logout</a>
