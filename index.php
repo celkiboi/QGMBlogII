@@ -3,7 +3,7 @@ require_once './db/db.php';
 $title = 'Home';
 include './layouts/nav.php';
 
-$stmt = $pdo->query("SELECT * FROM articles WHERE status='published' ORDER BY created_at DESC");
+$stmt = $pdo->query("SELECT * FROM articles WHERE status='published' ORDER BY updated_at DESC");
 $allArticles = $stmt->fetchAll();
 $totalArticles = count($allArticles);
 
@@ -28,8 +28,7 @@ function cover($a){
             <a class="hero-hot" href="pages/article.php?uuid=<?= htmlspecialchars($hero[0]['uuid']) ?>">
                 <div class="hero-bg" style="background-image:url('<?= cover($hero[0]) ?>')"></div>
                 <div class="hero-overlay">
-                    <h2><?= htmlspecialchars($hero[0]['title']) ?></h2>
-                    <p><?= htmlspecialchars($hero[0]['summary']) ?></p>
+                    <h2 id="hero-hot-h2-title"><?= htmlspecialchars($hero[0]['title']) ?></h2>
                 </div>
             </a>
 
@@ -40,7 +39,6 @@ function cover($a){
                             <div class="hero-bg" style="background-image:url('<?= cover($h) ?>')"></div>
                             <div class="hero-overlay">
                                 <h2><?= htmlspecialchars($h['title']) ?></h2>
-                                <p><?= htmlspecialchars($h['summary']) ?></p>
                             </div>
                         </a>
                     <?php endforeach; ?>
