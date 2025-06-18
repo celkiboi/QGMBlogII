@@ -23,6 +23,12 @@ if (!$metadata || !isset($metadata['title'], $metadata['short_description'], $me
     exit;
 }
 
+if (strlen($metadata['short_description']) > 128) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Short description cannot be over 128 characters long']);
+    exit;
+}
+
 function generate_uuid() {
     return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
         mt_rand(0, 0xffff), mt_rand(0, 0xffff),

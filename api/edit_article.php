@@ -43,6 +43,12 @@ if (
     exit;
 }
 
+if (strlen($metadata['short_description']) > 128) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Short description cannot be over 128 characters long']);
+    exit;
+}
+
 $basePath = __DIR__ . '/../articles/' . $uuid;
 $metaFile = "$basePath/article.json";
 $imagesPath = "$basePath/images";
