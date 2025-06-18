@@ -7,7 +7,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitUnpublishedBtn = document.getElementById('submit-article-unpublished-btn');
     const apiEndPoint = document.querySelector('input[name="api-endpoint"]').value;
 
-    let blockCounter = 0;
+    const alreadyLoadedBlocks = document.querySelectorAll('.article-item');
+    let blockCounter = alreadyLoadedBlocks.length;
+
+    const paragraphs = document.querySelectorAll('.paragraph');
+
+    paragraphs.forEach((paragraph) => {
+        paragraph.addEventListener('input', () => {
+        paragraph.style.height = 'auto';
+            paragraph.style.height = paragraph.scrollHeight + 'px';
+        });
+
+        paragraph.style.height = 'auto';
+        paragraph.style.height = paragraph.scrollHeight + 'px';
+    })
 
     addButton.addEventListener('click', () => {
         chooser.style.display = (chooser.style.display === 'none') ? 'block' : 'none';
@@ -39,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 textarea.rows = 1;
                 textarea.style.overflow = 'hidden';
                 textarea.style.resize = 'none';
+                textarea.className = 'paragraph';
 
                 textarea.addEventListener('input', () => {
                     textarea.style.height = 'auto';

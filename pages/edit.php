@@ -63,7 +63,7 @@ include '../layouts/nav.php';
             <div class="article-item" id="article-id-<?= $blockCounter ?>" data-type="<?= $type ?>" style="position: relative;">
                 <?php if ($type === 'paragraph'): ?>
                     <label>Paragraph:<br>
-                        <textarea name="content[]" rows="1" style="overflow:hidden;resize:none;"><?= $value ?></textarea>
+                        <textarea name="content[]" rows="1" style="overflow:hidden;resize:none;" class="paragraph"><?= $value ?></textarea>
                     </label>
 
                 <?php elseif ($type === 'quote'): ?>
