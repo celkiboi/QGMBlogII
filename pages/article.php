@@ -74,7 +74,7 @@ include '../layouts/nav.php';
             </table>
         
         <?php elseif ($block['type'] === 'youtube_video'): ?>
-            <iframe src="https://www.youtube.com/embed/<?= htmlspecialchars($block['video_id']) ?>" frameborder="0" allowfullscreen></iframe>
+            <iframe class="yt-video" src="https://www.youtube.com/embed/<?= htmlspecialchars($block['video_id']) ?>" frameborder="0" allowfullscreen></iframe>
 
         <?php endif; ?>
     <?php endforeach; ?>
@@ -94,31 +94,33 @@ $stmt->execute([$article['id']]);
 $comments = $stmt->fetchAll();
 ?>
 
-<form class="post-comment">
-    <input type="hidden" name="uuid" value="<?= htmlspecialchars($uuid) ?>">
-    <label>Comment <input type="text" name="comment" required></label><br>
-    <button type="button" id="comment-post-button" onClick="postComment()">Post</button>
-</form>
+<div id="comment-related-content">
+    <form class="post-comment">
+        <input type="hidden" name="uuid" value="<?= htmlspecialchars($uuid) ?>">
+        <label>Comment <input type="text" name="comment" required></label><br>
+        <button type="button" id="comment-post-button" onClick="postComment()">Post</button>
+    </form>
 
-<form>
-    <label for="comment-sorting-order">Sort comments by: </label>
-    <select name="comment-sorting-order">
-        <option value="newest-first">Newest first</option>
-        <option value="oldest-first">Oldest first</option>
-    </select>
-</form>
+    <form>
+        <label for="comment-sorting-order">Sort comments by: </label>
+        <select name="comment-sorting-order">
+            <option value="newest-first">Newest first</option>
+            <option value="oldest-first">Oldest first</option>
+        </select>
+    </form>
 
-<div class="comments-container">
-    <?php foreach($comments as $comment): ?>
-        <div class="comment">
-            <h4><i><?= htmlspecialchars($comment['username']) ?>:</i></h4>
-            <p><?= htmlspecialchars($comment['content']) ?></p>
-            <span><i><?= htmlspecialchars($comment['created_at']) ?></i></span>
-            <button type="button" class="report-button" id="report-button-<?= htmlspecialchars($comment['id']) ?>" onClick="reportComment(<?= htmlspecialchars($comment['id']) ?>, this)">Report</button>
-        </div>
-    <?php endforeach; ?>
+    <div class="comments-container">
+        <?php foreach($comments as $comment): ?>
+            <div class="comment">
+                <h4><i><?= htmlspecialchars($comment['username']) ?>:</i></h4>
+                <p><?= htmlspecialchars($comment['content']) ?></p>
+                <span><i><?= htmlspecialchars($comment['created_at']) ?></i></span>
+                <button type="button" class="report-button" id="report-button-<?= htmlspecialchars($comment['id']) ?>" onClick="reportComment(<?= htmlspecialchars($comment['id']) ?>, this)">Report</button>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    <button type="button" id="load-more-comments-button" onClick="loadMoreComments()">Load more</button>
 </div>
-
-<button type="button" id="load-more-comments-button" onClick="loadMoreComments()">Load more</button>
 
 <script src="../scripts/comments.js"></script>
