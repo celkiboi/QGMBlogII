@@ -18,7 +18,6 @@ if (empty($users)): ?>
         <option value="descending">Descending</option>
         <option value="ascending">Ascending</option>
     </select>
-    <button id="sort-users" onClick="sortUsers()">Sort</button>
     <table>
         <thead>
             <tr>

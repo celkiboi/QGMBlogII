@@ -129,6 +129,12 @@ async function loadMoreUsers() {
 
 }
 
+document.querySelectorAll('input[name="user-sorting"]').forEach(radio => {
+    radio.addEventListener('change', sortUsers);
+});
+
+document.querySelector('select[name="user-sorting-order"]').addEventListener('change', sortUsers);
+
 async function sortUsers() {
     const userRows = document.querySelectorAll('tr.user-row');
     var totalUsersLoaded = userRows.length;
