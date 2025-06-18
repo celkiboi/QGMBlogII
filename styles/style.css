@@ -48,6 +48,7 @@ button:hover {
 }
 
 nav {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
@@ -56,10 +57,70 @@ nav {
     padding: 0.75rem 1rem;
     background: var(--surface);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
 }
 
 nav strong { 
     color: var(--accent); 
+}
+
+#nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+@media (max-width: 980px) {
+    #nav-toggle {
+        display: block;
+        font-size: 2rem;
+    }
+
+    #nav-title-text h2 {
+        font-size: 2.8rem;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        background: var(--surface);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        padding: 1rem;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    }
+
+    nav.open .nav-links {
+        display: flex;
+        justify-content: flex-start; 
+    }
+
+    .nav-links a,
+    .nav-links p {
+        font-size: 1.8rem;
+    }
+
+    nav { 
+        justify-content: flex-start; 
+    }
+
+    .nav-divider {
+        display: none;
+    }
 }
 
 h1 {
@@ -104,10 +165,7 @@ p.lead {
     margin-top: auto;
 }
 
-@media (max-width: 720px) {
-    nav { 
-        justify-content: flex-start; 
-    }
+@media (max-width: 980px) {
     .article-grid { 
         grid-template-columns: 1fr; 
     }
