@@ -114,7 +114,7 @@ include '../layouts/nav.php';
 
                 <?php endif; ?>
                 
-                <button class="article-item-delete-btn" style="display:none;" onclick="this.parentElement.remove(); return false;">X</button>
+                <button type="button" class="article-item-delete-btn" style="display:none;" onclick="this.parentElement.remove(); return false;">X</button>
             </div>
         <?php endforeach; ?>
     </div>
