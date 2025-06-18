@@ -11,7 +11,7 @@ $title = 'New article';
 include '../layouts/nav.php';
 ?>
 
-<h1>Write a New Article</h1>
+<h1 id="write-new-article-title">Write a New Article</h1>
 
 <form id="article-form" enctype="multipart/form-data" method="post">
     <input type="hidden" name="api-endpoint" value="../api/create_article.php">

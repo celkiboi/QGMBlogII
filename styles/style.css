@@ -551,3 +551,271 @@ form select[name="comment-sorting-order"]{
     border: none;
     border-radius: var(--radius);
 }
+
+#article-body{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.article-item{
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: var(--radius);
+    padding: 1rem;
+    position: relative;
+    transition: border-color 0.25s;
+}
+
+.article-item:hover{
+    border-color: var(--accent);
+}
+
+.article-item > label{ 
+    font-size: 0.9rem; 
+}
+
+.article-item textarea,
+.article-item input[type="text"],
+.article-item input[type="number"]{
+    width: 100%;
+    background: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--text-muted);
+    border-radius: var(--radius);
+    padding: 0.45rem 0.6rem;
+    font-size: 0.9rem;
+}
+
+.article-item input[type="file"]{
+    margin-top: 0.5rem;
+}
+
+.article-item > button:last-of-type{
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: transparent;
+    color: var(--accent);
+    font-weight: 600;
+    padding: 0.15rem 0.55rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    font-size: 0.75rem;
+    display: none;
+    margin-bottom: 20px;
+}
+
+.article-item input {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.article-item > button{
+    margin-top: 8px;
+}
+
+.article-item:hover button:first-of-type{ 
+    display: inline-block; 
+}
+
+.article-item button:first-of-type:hover{
+    background: var(--accent);
+    color: #fff;
+}
+
+#element-controls{
+    margin-top: 1rem;
+    text-align: center;
+}
+
+#add-element-btn{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    padding: 0;
+    line-height: 44px;
+}
+
+#element-chooser{
+    margin: 0.75rem auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+#element-chooser button{
+    background: var(--surface);
+    color: var(--text-color);
+    border: 1px solid var(--accent);
+    font-size: 0.8rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius);
+}
+
+#element-chooser button:hover{
+    background: var(--accent);
+    color: #fff;
+}
+
+.generated-table{
+    margin: 0.75rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.generated-table .table-row{
+    display: flex;
+    gap: 0.25rem;
+}
+
+.generated-table input{
+    background: var(--bg-color);
+    border: 1px solid var(--text-muted);
+    border-radius: var(--radius);
+    padding: 0.35rem 0.5rem;
+    flex: 1;
+    font-size: 0.85rem;
+}
+
+.generated-table button{
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.25rem 0.7rem;
+    font-size: 0.75rem;
+    border-radius: var(--radius);
+    margin-top: 0.4rem;
+}
+
+.generated-table button:hover{
+    background: var(--accent);
+    color: #fff;
+}
+
+#submit-article-unpublished-btn,
+#submit-article-published-btn{
+    min-width: 180px;
+    margin: 1rem 0.5rem 0;
+}
+
+@media(max-width: 980px){
+    #submit-article-unpublished-btn,
+    #submit-article-published-btn{
+        width: 100%;
+        margin: 0.6rem 0 0;
+    }
+}
+
+#article-form{
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#article-form > label{
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.article-item textarea,
+#article-form input[type="text"]{
+    background: var(--surface);
+    color: var(--text-color);
+    border: 1px solid var(--text-muted);
+    border-radius: var(--radius);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+}
+
+#article-form input[type="file"]{
+    background: var(--surface);
+    color: var(--text-color);
+    border: 1px solid var(--text-muted);
+    border-radius: var(--radius);
+    padding: .4rem .6rem;
+    cursor: pointer;
+}
+
+#article-form input[type="file"]::-webkit-file-upload-button{
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: .45rem .9rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+}
+
+#article-form input[type="file"]::-webkit-file-upload-button:hover{
+    background: var(--accent-hover);
+}
+
+@media (max-width: 980px) {
+    #article-form {
+        max-width: 95%;
+        width: 95%;
+    }
+
+    #article-form,
+    #element-controls {
+        padding: 0 1rem;
+    }
+
+    #article-form  label {
+        font-size: 2rem;
+    }
+
+    .article-item textarea,
+    #article-form input[type="text"],
+    #article-form input[type="file"]::-webkit-file-upload-button {
+        font-size: 2rem;
+    }
+
+    .article-item textarea,
+    .article-item input[type="text"],
+    .article-item input[type="number"],
+    #element-chooser button,
+    .generated-table input {
+        font-size: 1.6rem;
+    }
+
+    #add-element-btn {
+        width: 64px;
+        height: 64px;
+        font-size: 2rem;
+    }
+
+    .generated-table button {
+        font-size: 1.5rem;
+        padding: 1.5rem 1.9rem;
+    }
+
+    #submit-article-unpublished-btn,
+    #submit-article-published-btn {
+        width: 100%;
+        padding: 1.45rem;
+        font-size: 1.8rem;
+    }
+
+    .article-item button,
+    .article-item > button:last-of-type{
+        font-size: 1.8rem;
+    }
+
+    .article-item input {
+        margin-top: 24px;
+        margin-bottom: 24px;
+    }
+    
+    #write-new-article-title {
+        font-size: 3.2rem;
+    }
+}
