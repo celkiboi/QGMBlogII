@@ -85,7 +85,7 @@ async function loadMoreComments() {
                 <h4><i>${comment['username']}:</i></h4>
                 <p>${comment['content']}</p>
                 <span><i>${comment['created_at']}</i></span>
-                <button type="button" class="report-button" id="report-button-${comment['id']}">Report</button>
+                <button type="button" class="report-button" id="report-button-${comment['id']}" onclick="reportComment(${comment['id']}, this)">Report</button>
             `
             commentsContainer.append(commentDiv);
         });
