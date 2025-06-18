@@ -1,42 +1,51 @@
+// scripts/articles.js
 async function loadMorePosts() {
-    const posts = document.querySelectorAll('li.post');
-    var totalPostsLoaded = posts.length;
+    const list = document.querySelector('.article-list');
+    if (!list)
+        return;
 
-    const postsToLoad = 10;
+    const articles = list.querySelectorAll('li');
+    const articlesLoaded = articles.length;
+    const articlesToLoad = 10;
 
     const formData = new FormData();
-    formData.append('start_index', totalPostsLoaded);
-    formData.append('end_index', totalPostsLoaded + postsToLoad);
-
+    formData.append('start_index', articlesLoaded);
+    formData.append('end_index', articlesLoaded + articlesToLoad);
     formData.append('sort_type', 'date-edited');
     formData.append('sort_order', 'descending');
-
     formData.append('only_from_user', false);
 
-    const response = await fetch('./api/post_pagination.php', {
+    const result = await fetch('./api/post_pagination.php', {
         method: 'POST',
         body: formData
     });
 
-    const postList = posts[0].parentElement;
+    if (!result.ok) {
+        console.error('Failed to load posts');
+        return;
+    }
 
-    if (response.ok) {
-        const data = await response.json();
-        const newPosts = data['posts'];
+    const data = await result.json();
+    const newPosts = data.posts;
 
-        newPosts.forEach((post) => {
-            postList.innerHTML += `
-                <li class="post">
-                <a href="pages/article.php?uuid=${post.uuid}">
-                    ${post.title}
-                </a>
-            </li>
-            `;
-        });
+    newPosts.forEach(p => {
+        const li = document.createElement('li');
 
-        if (data['more_exists'] === false) {
-            const loadMoreButton = document.getElementById("load-more-posts");
-            loadMoreButton.remove();
-        }
+        li.innerHTML =
+            `<a class="article-hook" href="pages/article.php?uuid=${p.uuid}">
+                <img class="article-thumb" src="articles/${p.uuid}/cover.webp" alt="${p.title}">
+                <div class="article-body">
+                    <h3>${p.title}</h3>
+                    <p>${p.summary}</p>
+                </div>
+            </a>`;
+
+        list.appendChild(li);
+    });
+
+    if (data.more_exists === false) {
+        const button = document.getElementById('load-more-posts');
+        if (button) 
+            button.remove();
     }
 }

@@ -8,5 +8,6 @@
 <html>
 <head>
     <title><?= htmlspecialchars($page_title) ?></title>
+    <link rel="stylesheet" href="/QGMBlogII/styles/style.css">
 </head>
 <body>
