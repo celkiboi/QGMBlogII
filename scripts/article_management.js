@@ -169,6 +169,12 @@ async function loadMorePosts() {
     }
 }
 
+document.querySelectorAll('input[name="post-sorting"]').forEach(radio => {
+    radio.addEventListener('change', sortPosts);
+});
+
+document.querySelector('select[name="post-sorting-order"]').addEventListener('change', sortPosts);
+
 async function sortPosts() {
     const postRows = document.querySelectorAll('tr.post-row');
     const totalPostsLoaded = postRows.length;
