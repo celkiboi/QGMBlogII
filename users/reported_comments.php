@@ -1,7 +1,7 @@
 <?php
 require_once '../db/db.php';
 
-$countStmt = $pdo->prepare("SELECT COUNT(*) FROM comment_reports WHERE resolved = NULL");
+$countStmt = $pdo->prepare("SELECT COUNT(*) FROM comment_reports WHERE resolved IS NULL");
 $countStmt->execute();
 $totalReports = $countStmt->fetchColumn();
 
@@ -18,7 +18,9 @@ $stmt = $pdo->prepare("
     JOIN comments ON comment_reports.comment_id = comments.id
     JOIN articles ON comments.article_id = articles.id
     JOIN users AS reporter ON comment_reports.reporter_id = reporter.id
-    JOIN users AS commenter ON comments.user_id = commenter.id;
+    JOIN users AS commenter ON comments.user_id = commenter.id
+    ORDER BY comment_reports.created_at DESC
+    LIMIT 10;
 ");
 $stmt->execute();
 $reports = $stmt->fetchAll();
@@ -29,7 +31,16 @@ if (empty($reports)): ?>
     <div class="reported-comments-wrapper">
         <h2>Reported comments:</h2>
         <span>Sort by:</span>
-        <span>To be implemented...</span>
+        <input type="radio" name="report-sorting" id="report-sort-date-reported" value="date-reported" checked>
+        <label for="report-sort-date-reported">Date reported</label>
+        <input type="radio" name="report-sorting" id="report-sort-article-title" value="article-title">
+        <label for="report-sort-article-title">Article title</label>
+        <input type="radio" name="report-sorting" id="report-sort-comment-date" value="comment-date">
+        <label for="report-sort-comment-date">Comment date</label>
+        <select name="report-sorting-order">
+            <option value="descending">Descending</option>
+            <option value="ascending">Ascending</option>
+        </select>
         <table>
             <thead>
                 <tr>
@@ -58,8 +69,12 @@ if (empty($reports)): ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
+                
             </tbody>
         </table>
+        <?php if ($totalReports > 10): ?>
+            <button id="load-more-reports" onclick="loadMoreReports()">Load more</button>
+        <?php endif; ?>
     </div>
 <?php endif; ?>
 
