@@ -21,14 +21,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<form method="post">
-    <h2>Login</h2>
-    <?php if ($error): ?>
-        <p style="color:red"><?= htmlspecialchars($error) ?></p>
-    <?php endif; ?>
-    <input name="username" placeholder="Username" required>
-    <input name="password" type="password" placeholder="Password" required>
-    <button type="submit">Login</button>
-</form>
+<main class="auth-page">
+    <div class="auth-wrapper">
+        <h2>Login</h2>
 
-<p>Not a user? Register <a href="register.php">here</a></p>
+        <?php if ($error): ?>
+            <p class="error"><?= htmlspecialchars($error) ?></p>
+        <?php endif; ?>
+
+        <form method="post">
+            <label>
+                Username
+                <input type="text" name="username" placeholder="Username" required>
+            </label>
+
+            <label>
+                Password
+                <input name="password" type="password" placeholder="Password" required>
+            </label>
+
+            <button type="submit" id="login-button">Login</button>
+        </form>
+
+        <p class="alt-link">
+            Not a user? <a href="register.php">Register here</a>
+        </p>
+    </div>
+</main>

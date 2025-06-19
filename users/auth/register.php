@@ -46,14 +46,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h2>Register</h2>
+<main class="auth-page">
+    <div class="auth-wrapper">
+        <h2>Register</h2>
 
-<?php if ($error): ?>
-    <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-<?php endif; ?>
+        <?php if ($error): ?>
+            <p class="error"><?= htmlspecialchars($error) ?></p>
+        <?php endif; ?>
 
-<form method="post">
-    <label>Username: <input type="text" name="username" required></label><br><br>
-    <label>Password: <input type="password" name="password" required></label><br><br>
-    <button type="submit">Register</button>
-</form>
+        <form method="post">
+            <label>
+                Username
+                <input type="text" name="username" required>
+            </label>
+
+            <label>
+                Password
+                <input type="password" name="password" required>
+            </label>
+
+            <button type="submit" id="register-button">Register</button>
+        </form>
+
+        <p class="alt-link">
+            Already have an account? <a href="login.php">Log in</a>
+        </p>
+    </div>
+</main>
