@@ -24,8 +24,13 @@ if ($_POST['only_from_user'] === true
     exit;
 }
 
-$user_id = current_user()['id'];
-$where_query = $_POST['only_from_user'] == true ? "WHERE `writer_id` = $user_id" : "WHERE status = 'published'";
+$user_id;
+$where_query = "WHERE status = 'published'";
+
+if (isset($_SESSION['user']) && $_POST['only_from_user'] === true) {
+    $user_id = current_user()['id'];
+    $where_query = "WHERE `writer_id` = $user_id";
+}
 
 $order_query;
 if ($_POST['sort_type'] === 'date-edited') 
@@ -49,7 +54,7 @@ else {
     exit;
 }
 
-$countQuery = "SELECT COUNT(*) FROM articles $where_query";
+$countQuery = 'SELECT COUNT(*) FROM articles $where_query';
 $countStmt = $pdo->prepare($countQuery);
 $countStmt->execute();
 $totalPosts = $countStmt->fetchColumn();
