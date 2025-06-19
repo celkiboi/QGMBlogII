@@ -9,15 +9,17 @@ if (empty($users)): ?>
     <p>No users detected</p>
 <?php else: ?>
     <h2>Users:</h2>
-    <span>Sort by:</span>
-    <input type="radio" name="user-sorting" id="user-sort-date-joined" value="date-joined" checked>
-    <label for="user-sort-date-joined">Date joined</label>
-    <input type="radio" name="user-sorting" id="user-sort-username" value="username">
-    <label for="user-sort-username">Username</label>
-    <select name="user-sorting-order">
-        <option value="descending">Descending</option>
-        <option value="ascending">Ascending</option>
-    </select>
+    <div class="filter-bar">
+        <span>Sort by:</span>
+        <input type="radio" name="user-sorting" id="user-sort-date-joined" value="date-joined" checked>
+        <label for="user-sort-date-joined">Date joined</label>
+        <input type="radio" name="user-sorting" id="user-sort-username" value="username">
+        <label for="user-sort-username">Username</label>
+        <select name="user-sorting-order">
+            <option value="descending">Descending</option>
+            <option value="ascending">Ascending</option>
+        </select>
+    </div>
     <table>
         <thead>
             <tr>
@@ -45,7 +47,7 @@ if (empty($users)): ?>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <button id="load-more-users" onClick="loadMoreUsers()">Load more</button>
+    <button class="load-more" id="load-more-users" onClick="loadMoreUsers()">Load more</button>
 <?php endif; ?>
 
 <script src="../scripts/user_management.js"></script>

@@ -16,15 +16,17 @@ if (empty($articles)): ?>
 <?php else: ?>
     <div class="your-articles-wrapper">
         <h2>Your Articles:</h2>
-        <span>Sort by:</span>
-        <input type="radio" name="post-sorting" id="post-sort-date-edited" value="date-edited" checked>
-        <label for="user-sort-date-edited">Date edited</label>
-        <input type="radio" name="post-sorting" id="post-sort-title" value="title">
-        <label for="user-sort-username">Title</label>
-        <select name="post-sorting-order">
-            <option value="descending">Descending</option>
-            <option value="ascending">Ascending</option>
-        </select>
+        <div class="filter-bar">
+            <span>Sort by:</span>
+            <input type="radio" name="post-sorting" id="post-sort-date-edited" value="date-edited" checked>
+            <label for="user-sort-date-edited">Date edited</label>
+            <input type="radio" name="post-sorting" id="post-sort-title" value="title">
+            <label for="user-sort-username">Title</label>
+            <select name="post-sorting-order">
+                <option value="descending">Descending</option>
+                <option value="ascending">Ascending</option>
+            </select>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -62,7 +64,7 @@ if (empty($articles)): ?>
     </div>
 
     <?php if ($totalArticles > 10): ?>
-        <button type="submit" onClick="loadMorePosts()" id="load-more-posts">Load More</button>
+        <button class="load-more" type="submit" onClick="loadMorePosts()" id="load-more-posts">Load More</button>
     <?php endif; ?>
 <?php endif; ?>
 

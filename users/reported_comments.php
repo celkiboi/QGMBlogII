@@ -30,17 +30,19 @@ if (empty($reports)): ?>
 <?php else: ?>
     <div class="reported-comments-wrapper">
         <h2>Reported comments:</h2>
-        <span>Sort by:</span>
-        <input type="radio" name="report-sorting" id="report-sort-date-reported" value="date-reported" checked>
-        <label for="report-sort-date-reported">Date reported</label>
-        <input type="radio" name="report-sorting" id="report-sort-article-title" value="article-title">
-        <label for="report-sort-article-title">Article title</label>
-        <input type="radio" name="report-sorting" id="report-sort-comment-date" value="comment-date">
-        <label for="report-sort-comment-date">Comment date</label>
-        <select name="report-sorting-order">
-            <option value="descending">Descending</option>
-            <option value="ascending">Ascending</option>
-        </select>
+        <div class="filter-bar">
+            <span>Sort by:</span>
+            <input type="radio" name="report-sorting" id="report-sort-date-reported" value="date-reported" checked>
+            <label for="report-sort-date-reported">Date reported</label>
+            <input type="radio" name="report-sorting" id="report-sort-article-title" value="article-title">
+            <label for="report-sort-article-title">Article title</label>
+            <input type="radio" name="report-sorting" id="report-sort-comment-date" value="comment-date">
+            <label for="report-sort-comment-date">Comment date</label>
+            <select name="report-sorting-order">
+                <option value="descending">Descending</option>
+                <option value="ascending">Ascending</option>
+            </select>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -73,7 +75,7 @@ if (empty($reports)): ?>
             </tbody>
         </table>
         <?php if ($totalReports > 10): ?>
-            <button id="load-more-reports" onclick="loadMoreReports()">Load more</button>
+            <button class="load-more" id="load-more-reports" onclick="loadMoreReports()">Load more</button>
         <?php endif; ?>
     </div>
 <?php endif; ?>
