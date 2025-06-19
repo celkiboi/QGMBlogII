@@ -60,7 +60,13 @@ include '../layouts/nav.php';
             $src = htmlspecialchars($block['src'] ?? '');
             $blockCounter++;
         ?>
-            <div class="article-item" id="article-id-<?= $blockCounter ?>" data-type="<?= $type ?>" style="position: relative;">
+            <div class="article-item"
+                id="article-id-<?= $blockCounter ?>"
+                data-type="<?= $type ?>"
+                <?php if ($type === 'image'): ?>
+                    data-src="<?= $src ?>"
+                <?php endif; ?>
+                style="position:relative;">
                 <?php if ($type === 'paragraph'): ?>
                     <label>Paragraph:<br>
                         <textarea name="content[]" rows="1" style="overflow:hidden;resize:none;" class="paragraph"><?= $value ?></textarea>

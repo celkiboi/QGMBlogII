@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const blocks = body.querySelectorAll('.article-item');
         let imageIndex = 0;
-
+        
         for (let block of blocks) {
             const type = block.dataset.type;
 
@@ -170,15 +170,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (type === 'image') {
-                const fileInput = block.querySelector('input[type="file"]');
-                const file = fileInput?.files?.[0];
-                if (file) {
-                    const webpBlob = await convertToWebP(file);
+                const fileInput   = block.querySelector('input[type="file"]');
+                const existingSrc = block.dataset.src;
+
+                if (fileInput.files.length) {
+                    const webpBlob = await convertToWebP(fileInput.files[0]);
                     const filename = `article_item_${imageIndex}.webp`;
                     formData.append('images[]', webpBlob, filename);
+
                     article.article_elements.push({
-                        type: 'image',
-                        src: filename
+                        type : 'image',
+                        src  : filename
+                    });
+                    imageIndex++;
+
+                } else if (existingSrc) {
+                    article.article_elements.push({
+                        type : 'image',
+                        src  : existingSrc
                     });
                     imageIndex++;
                 }
